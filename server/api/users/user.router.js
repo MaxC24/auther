@@ -24,6 +24,19 @@ router.get('/', function (req, res, next) {
 	.then(null, next);
 });
 
+router.post('/login', function(req, res, next){
+	User.findOne(req.body)
+	.then(function(userInfo){
+		if(!userInfo){
+			res.sendStatus(401);
+		} else{
+			_.extend(req.session, {userId: userInfo._id});
+			res.sendStatus(200);
+		}
+	})
+	.then(null, next);
+});
+
 router.post('/', function (req, res, next) {
 	User.create(req.body)
 	.then(function (user) {
