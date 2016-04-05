@@ -14,5 +14,5 @@ app.controller('SignUpCtrl', function($scope, $state, SignupFactory){
 		.then(function(aUser){
 			$state.go('stories')
 		});
-	}; 
+	};
 });

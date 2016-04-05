@@ -24,6 +24,7 @@ router.get('/', function (req, res, next) {
 	.then(null, next);
 });
 
+//Login
 router.post('/login', function(req, res, next){
 	User.findOne(req.body)
 	.then(function(userInfo){
@@ -39,6 +40,16 @@ router.post('/login', function(req, res, next){
 	.then(null, next);
 });
 
+//Logout
+router.post('/logout', function(req, res, next){
+	if(req.session){
+		req.session.destroy(function(err){
+			// TODO: err hand. every thing else if there is no sess.
+			console.log('This is an error', err);
+		});
+	}
+});
+
 router.post('/', function (req, res, next) {
 	User.create(req.body)
 	.then(function (userInfo) {
@@ -47,6 +58,7 @@ router.post('/', function (req, res, next) {
 	})
 	.then(null, next);
 });
+
 
 router.get('/:id', function (req, res, next) {
 	req.requestedUser.getStories()
