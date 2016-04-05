@@ -31,6 +31,8 @@ router.post('/login', function(req, res, next){
 			res.sendStatus(401);
 		} else{
 			_.extend(req.session, {userId: userInfo._id});
+			var timeOut = 3600000;
+			req.session.cookie.maxAge = timeOut;
 			res.sendStatus(200);
 		}
 	})
@@ -39,8 +41,9 @@ router.post('/login', function(req, res, next){
 
 router.post('/', function (req, res, next) {
 	User.create(req.body)
-	.then(function (user) {
-		res.status(201).json(user);
+	.then(function (userInfo) {
+		_.extend(req.session, {userId: userInfo._id});
+		res.status(201).json(userInfo);
 	})
 	.then(null, next);
 });
